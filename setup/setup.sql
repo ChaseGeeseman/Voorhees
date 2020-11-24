@@ -32,15 +32,15 @@ CREATE TABLE election_history(
 
 
 CREATE TABLE resolutions(
-    primary_key int IDENTITY(1,1) PRIMARY KEY,
+    primary_key INT IDENTITY(1,1) PRIMARY KEY,
     res_number VARCHAR(7),
-    where_as TEXT(MAX),
-    now_therefore TEXT(MAX)
+    where_as TEXT,
+	now_therefore TEXT
 )
 
 CREATE TABLE ordinances(
-    primary_key int IDENTITY(1,1) PRIMARY KEY,
+    primary_key INT IDENTITY(1,1) PRIMARY KEY,
     ord_number VARCHAR(7),
-    where_as TEXT(MAX),
-    now_therefore TEXT(MAX)
+    where_as TEXT,
+	now_therefore TEXT
 )
