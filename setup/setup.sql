@@ -18,7 +18,8 @@ CREATE TABLE people(
 *   Contains basic election history information
 */
 CREATE TABLE election_history(
-    primary_key int IDENTITY(1,1) PRIMARY KEY,
+    primary_key INT IDENTITY(1,1) PRIMARY KEY,
+	person_id INT,
     /*
     *   Anyone who participates in an election , should have an entry in the "people"
     *   table listed above.
