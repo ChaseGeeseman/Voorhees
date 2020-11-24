@@ -1,4 +1,10 @@
-CREATE DATABASE voorhees
+/*
+If DB not present run this line by itself
+
+CREATE DATABASE voorhees;
+
+
+*/
 USE voorhees
 /*
 *   Contains basic information on people who have ran for office.
