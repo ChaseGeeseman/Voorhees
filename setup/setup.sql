@@ -26,3 +26,18 @@ CREATE TABLE election_history(
             REFERENCES people(person_id),
     election_year DATE,
 )
+
+
+CREATE TABLE resolutions(
+    primary_key int IDENTITY(1,1) PRIMARY KEY,
+    res_number VARCHAR(7),
+    where_as TEXT(MAX),
+    now_therefore TEXT(MAX)
+)
+
+CREATE TABLE ordinances(
+    primary_key int IDENTITY(1,1) PRIMARY KEY,
+    ord_number VARCHAR(7),
+    where_as TEXT(MAX),
+    now_therefore TEXT(MAX)
+)
