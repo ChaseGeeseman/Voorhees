@@ -1,5 +1,5 @@
 CREATE DATABASE voorhees
-
+USE voorhees
 /*
 *   Contains basic information on people who have ran for office.
 */
