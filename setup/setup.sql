@@ -11,6 +11,7 @@ CREATE DATABASE voorhees;
 USE voorhees
 
 
+
 /*
 *   Contains basic information on people who have ran for office.
 */
@@ -47,7 +48,9 @@ CREATE TABLE election_history(
     election_year DATE
 )
 
-
+/*
+*   Contains information about resolutions
+*/
 CREATE TABLE resolution(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
     res_number VARCHAR(7),
@@ -55,6 +58,10 @@ CREATE TABLE resolution(
 	now_therefore VARCHAR(MAX)
 )
 
+
+/*
+*   Contains information about ordinances
+*/
 CREATE TABLE ordinance(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
     ord_number VARCHAR(7),
@@ -64,12 +71,19 @@ CREATE TABLE ordinance(
     source VARCHAR(MAX)
 )
 
+
+/*
+*   Contains information about meetings
+*/
 CREATE TABLE meeting(
      meeting_id INT IDENTITY(1,1) PRIMARY KEY,
      meeting_date DATE,
      sunshine_statement VARCHAR(MAX)
 )
 
+/*
+*   Contains meeting attattendance information
+*/
 CREATE TABLE attendance(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
     meeting_id INT,
@@ -87,7 +101,7 @@ CREATE TABLE attendance(
 */
 CREATE TABLE source_reference(
     source_reference_pk INT IDENTITY(1,1) PRIMARY KEY,
-    source_link VARCHAR(MAX),
+    source_weblink VARCHAR(MAX),
     source_name VARCHAR(MAX),
     source_comment VARCHAR(MAX)
 )
