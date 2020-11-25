@@ -19,14 +19,25 @@ CREATE TABLE people(
     person_id int IDENTITY(1,1) PRIMARY KEY,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
-    --TO DO: Create a party table and change this to reference the coded value
-    current_party VARCHAR(MAX),
+    current_party INT,
+        CONSTRAINT people_fk_current_party
+            FOREIGN KEY (current_party)
+                REFERENCES party(party_id),
     /*
     *   1 = serving activly
     *   0 = not serving
     */ 
     active BIT DEFAULT 0
 )
+
+/*
+*   Decodes political parties
+*/
+CREATE TABLE party(
+    party_id int IDENTITY(1,1) PRIMARY KEY,
+    party_name VARCHAR(MAX)
+)
+
 
 /*
 *   Contains basic election history information
@@ -41,8 +52,10 @@ CREATE TABLE election_history(
     CONSTRAINT election_history_fk_person_id
         FOREIGN KEY (person_id)
             REFERENCES people(person_id),
-    --TO DO: Create a party table and change this to reference the coded value
-    election_party VARCHAR(MAX),
+    election_party INT,
+        CONSTRAINT election_history_fk_election_party
+            FOREIGN KEY (election_party)
+                REFERENCES party(party_id),
     vote_count INT,
     vote_percent FLOAT,
     election_year DATE
