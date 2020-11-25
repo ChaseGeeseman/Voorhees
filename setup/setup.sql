@@ -19,7 +19,6 @@ CREATE TABLE people(
     */ 
     active BIT DEFAULT 0
 )
-
 /*
 *   Contains basic election history information
 */
@@ -33,28 +32,30 @@ CREATE TABLE election_history(
     CONSTRAINT fk_election_history_person_id
         FOREIGN KEY (person_id)
             REFERENCES people(person_id),
-    election_year DATE,
+    election_year DATE
 )
 
 
 CREATE TABLE resolutions(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
     res_number VARCHAR(7),
-    where_as TEXT,
-	now_therefore TEXT
+    where_as VARCHAR(MAX),
+	now_therefore VARCHAR(MAX)
 )
 
 CREATE TABLE ordinances(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
     ord_number VARCHAR(7),
-    where_as TEXT,
-	now_therefore TEXT
+    ord_title VARCHAR(MAX),
+    where_as VARCHAR(MAX),
+	now_therefore VARCHAR(MAX),
+    source VARCHAR(MAX)
 )
 
 CREATE TABLE meetings(
      meeting_id INT IDENTITY(1,1) PRIMARY KEY,
      meeting_date DATE,
-     sunshine_statement TEXT
+     sunshine_statement VARCHAR(MAX)
 )
 
 CREATE TABLE attendance(
