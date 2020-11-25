@@ -112,9 +112,21 @@ CREATE TABLE attendance(
 /*
 *   To track where various data is pulled from
 */
+CREATE TABLE source_info(
+    source_info_pk INT IDENTITY(1,1) PRIMARY KEY,
+    source_weblink VARCHAR(MAX) NOT NULL,
+    source_name VARCHAR(MAX) NOT NULL,
+    source_comment VARCHAR(MAX)
+)
+
 CREATE TABLE source_reference(
     source_reference_pk INT IDENTITY(1,1) PRIMARY KEY,
-    source_weblink VARCHAR(MAX),
-    source_name VARCHAR(MAX),
-    source_comment VARCHAR(MAX)
+    source_info_pk INT,
+        CONSTRAINT source_reference_fk_source_info_pk
+            FOREIGN KEY (source_info_pk)
+                REFERENCES source_info(source_info_pk),
+    --25NOV2020 currently this can only be resolution or ordinance.
+    item_type INT NOT NULL,
+    --Reference the primary key of an ordinance or resolution
+    item_id INT NOT NULL,
 )
