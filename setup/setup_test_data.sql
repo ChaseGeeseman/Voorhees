@@ -1,39 +1,50 @@
 USE voorhees
-INSERT INTO dbo.people (first_name,last_name,active)
-VALUES
-	('Michael','Mignogna',1),
-	('Jason','Ravitz',1),
-	('Harry','Platt',1),
-	('Michelle','Nocito',1),
-	('Jacklyn','Fetbroyt',1)
+--add test data to the people table
+exec ins_people 'Michael', 'Mignogna', 1;
+exec ins_people 'Jason', 'Ravitz', 1;
+exec ins_people 'Harry', 'Platt', 1;
+exec ins_people 'Michelle', 'Nocito', 1;
+exec ins_people 'Jacklyn', 'Fetbroyt', 1;
 
-INSERT INTO dbo.meetings(meeting_date,sunshine_statement)
-VALUES
-    ('09NOV2020','TEST'),
-    ('26OCT2020','TEST'),
-    ('14SEP2020','TEST'),
-    ('10AUG2020','TEST')
+--add test data to the meeting table
+exec ins_meeting '09NOV2020','TEST'
+exec ins_meeting '26OCT2020','TEST';
+exec ins_meeting '14SEP2020','TEST';
+exec ins_meeting '10AUG2020','TEST';
 
-INSERT INTO dbo.attendance(meeting_id,person_id)
-VALUES
-    (
-        ( SELECT mt.meeting_id FROM meetings mt WHERE mt.meeting_id = 1 ),
-        ( SELECT pp.person_id FROM people pp WHERE pp.person_id = 1)
-    ),
-        (
-        ( SELECT mt.meeting_id FROM meetings mt WHERE mt.meeting_id = 1 ),
-        ( SELECT pp.person_id FROM people pp WHERE pp.person_id = 2)
-    ),
-        (
-        ( SELECT mt.meeting_id FROM meetings mt WHERE mt.meeting_id = 1 ),
-        ( SELECT pp.person_id FROM people pp WHERE pp.person_id = 3)
-    ),
-        (
-        ( SELECT mt.meeting_id FROM meetings mt WHERE mt.meeting_id = 1 ),
-        ( SELECT pp.person_id FROM people pp WHERE pp.person_id = 4)
-    ),
-        (
-        ( SELECT mt.meeting_id FROM meetings mt WHERE mt.meeting_id = 1 ),
-        ( SELECT pp.person_id FROM people pp WHERE pp.person_id = 5)
+--add test data to the attendance table
+SET @meeting_nov = (
+    SELECT meeting_id
+    FROM meetings
+    WHERE meeting_date='09NOV2020'
+    )
+SET @meeting_oct = (
+    SELECT meeting_id
+    FROM meetings
+    WHERE meeting_date='26OCT2020'
+    )
+SET @meeting_sep = (
+    SELECT meeting_id
+    FROM meetings
+    WHERE meeting_date='14SEP2020'
     )
 
+SET @person_id = (
+    SELECT person_id
+    FROM people
+    WHERE last_name = 'Nocito'
+)
+
+exec ins_attendance @meeting_nov, @person_id
+exec ins_attendance @meeting_oct, @person_id
+exec ins_attendance @meeting_sep, @person_id
+
+SET @person_id = (
+    SELECT person_id
+    FROM people
+    WHERE last_name = 'Fetbroyt'
+)
+
+exec ins_attendance @meeting_nov, @person_id
+exec ins_attendance @meeting_oct, @person_id
+exec ins_attendance @meeting_sep, @person_id
