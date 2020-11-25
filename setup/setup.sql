@@ -30,7 +30,7 @@ CREATE TABLE election_history(
     *   Anyone who participates in an election , should have an entry in the "people"
     *   table listed above.
     */
-    CONSTRAINT fk_person_id
+    CONSTRAINT fk_election_history_person_id
         FOREIGN KEY (person_id)
             REFERENCES people(person_id),
     election_year DATE,
@@ -49,4 +49,22 @@ CREATE TABLE ordinances(
     ord_number VARCHAR(7),
     where_as TEXT,
 	now_therefore TEXT
+)
+
+CREATE TABLE meetings(
+     meeting_id INT IDENTITY(1,1) PRIMARY KEY,
+     meeting_date DATE,
+     sunshine_statement TEXT
+)
+
+CREATE TABLE attendance(
+    primary_key INT IDENTITY(1,1) PRIMARY KEY,
+    meeting_id INT,
+        CONSTRAINT fk_attendance_meeting_id
+            FOREIGN KEY (meeting_id)
+                REFERENCES meetings(meeting_id),
+    person_id INT,
+        CONSTRAINT fk_attendance_person_id
+            FOREIGN KEY (person_id)
+                REFERENCES people(person_id),
 )
