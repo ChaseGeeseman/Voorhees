@@ -18,7 +18,7 @@ CREATE PROCEDURE ins_meeting(
     )
 AS
 SET NOCOUNT ON
-INSERT INTO dbo.meetings(meeting_date, sunshine_statement)
+INSERT INTO dbo.meeting(meeting_date, sunshine_statement)
 VALUES(@meeting_date, @sunshine_statement)
 GO;
 
@@ -36,14 +36,14 @@ GO;
 
 ------------- resolutions -----------------
 
-CREATE PROCEDURE ins_resolutions(
+CREATE PROCEDURE ins_resolution(
         @res_number VARCHAR(7),
         @where_as VARCHAR(MAX),
         @now_therefore VARCHAR(MAX) 
     )
 AS
 SET NOCOUNT ON
-INSERT INTO dbo.resolutions(res_number, where_as,now_therefore)
+INSERT INTO dbo.resolution(res_number, where_as,now_therefore)
 VALUES(@res_number, @where_as, @now_therefore)
 GO;
 
@@ -61,20 +61,6 @@ SET NOCOUNT ON
 INSERT INTO dbo.election_history(person_id,election_year,election_party,vote_count,vote_percent,election_year)
 VALUES(@person_id,@election_year,@election_party,@vote_count,@vote_percent,@election_year)
 GO;
-
-------------- source_reference -----------------
-
-CREATE PROCEDURE ins_source_reference(
-    @source_link VARCHAR(MAX),
-    @source_name VARCHAR(MAX),
-    @source_comment VARCHAR(MAX)
-)
-AS
-SET NOCOUNT ON
-INSERT INTO dbo.election_history()
-VALUES(   )
-GO;
-
 
 
 
