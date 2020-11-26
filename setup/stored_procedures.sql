@@ -2,11 +2,12 @@
 
 CREATE PROCEDURE ins_people(
         @first_name VARCHAR(MAX),
-        @last_name VARCHAR(MAX), @active BIT
+        @last_name VARCHAR(MAX),
+        @active BIT
     )
 AS
 SET NOCOUNT ON
-INSERT INTO dbo.people(first_name, last_name,active)
+INSERT INTO dbo.people(first_name, last_name, active)
 VALUES (@first_name, @last_name, @active)
 GO;
 
