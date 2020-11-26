@@ -44,7 +44,7 @@ CREATE TABLE party(
 */
 CREATE TABLE election_history(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
-	person_id INT,
+	person_id INT NOT NULL,
     /*
     *   Anyone who participates in an election , should have an entry in the "people"
     *   table listed above.
@@ -58,7 +58,7 @@ CREATE TABLE election_history(
                 REFERENCES party(party_id),
     vote_count INT,
     vote_percent FLOAT,
-    election_year DATE
+    election_year DATE NOT NULL
 )
 
 /*
@@ -66,9 +66,10 @@ CREATE TABLE election_history(
 */
 CREATE TABLE resolution(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
-    res_number VARCHAR(7),
-    where_as VARCHAR(MAX),
-	now_therefore VARCHAR(MAX)
+    res_number VARCHAR(7) NOT NULL,
+    res_title VARCHAR(MAX),
+    where_as VARCHAR(MAX) NOT NULL,
+	now_therefore VARCHAR(MAX) NOT NULL
 )
 
 
@@ -77,11 +78,10 @@ CREATE TABLE resolution(
 */
 CREATE TABLE ordinance(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
-    ord_number VARCHAR(7),
+    ord_number VARCHAR(7) NOT NULL,
     ord_title VARCHAR(MAX),
-    where_as VARCHAR(MAX),
-	now_therefore VARCHAR(MAX),
-    source VARCHAR(MAX)
+    where_as VARCHAR(MAX) NOT NULL,
+	now_therefore VARCHAR(MAX) NOT NULL,
 )
 
 
@@ -90,7 +90,7 @@ CREATE TABLE ordinance(
 */
 CREATE TABLE meeting(
      meeting_id INT IDENTITY(1,1) PRIMARY KEY,
-     meeting_date DATE,
+     meeting_date DATE NOT NULL,
      sunshine_statement VARCHAR(MAX)
 )
 
@@ -99,11 +99,11 @@ CREATE TABLE meeting(
 */
 CREATE TABLE attendance(
     primary_key INT IDENTITY(1,1) PRIMARY KEY,
-    meeting_id INT,
+    meeting_id INT NOT NULL,
         CONSTRAINT fk_attendance_meeting_id
             FOREIGN KEY (meeting_id)
                 REFERENCES meetings(meeting_id),
-    person_id INT,
+    person_id INT NOT NULL,
         CONSTRAINT fk_attendance_person_id
             FOREIGN KEY (person_id)
                 REFERENCES people(person_id),
@@ -121,7 +121,7 @@ CREATE TABLE source_info(
 
 CREATE TABLE source_reference(
     source_reference_pk INT IDENTITY(1,1) PRIMARY KEY,
-    source_info_pk INT,
+    source_info_pk INT NOT NULL,
         CONSTRAINT source_reference_fk_source_info_pk
             FOREIGN KEY (source_info_pk)
                 REFERENCES source_info(source_info_pk),
