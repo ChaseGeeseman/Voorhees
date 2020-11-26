@@ -62,7 +62,15 @@ INSERT INTO dbo.election_history(person_id,election_year,election_party,vote_cou
 VALUES(@person_id,@election_year,@election_party,@vote_count,@vote_percent,@election_year)
 GO;
 
-
+------------- party -----------------
+CREATE PROCEDURE ins_party(
+    @party_name VARHCAR(MAX)
+)
+AS
+SET NOCOUNT ON
+INSERT INTO dbo.party(party_name)
+VALUES(@party_name)
+GO;
 
 
 
