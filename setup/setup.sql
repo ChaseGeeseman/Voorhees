@@ -127,6 +127,17 @@ CREATE TABLE source_reference(
                 REFERENCES source_info(source_info_pk),
     --25NOV2020 currently this can only be resolution or ordinance.
     item_type INT NOT NULL,
+        CONSTRAINT source_reference_fk_item_type
+            FOREIGN KEY (item_type)
+                REFERENCES item_info(item_info_pk),
     --Reference the primary key of an ordinance or resolution
     item_id INT NOT NULL,
 )
+
+
+CREATE TABLE item_info(
+    item_info_pk INT IDENTITY(1,1) PRIMARY KEY,
+    item_name VARCHAR(MAX)
+)
+
+
