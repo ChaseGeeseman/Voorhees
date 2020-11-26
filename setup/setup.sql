@@ -137,7 +137,7 @@ CREATE TABLE source_reference(
 
 CREATE TABLE item_info(
     item_info_pk INT IDENTITY(1,1) PRIMARY KEY,
-    item_name VARCHAR(MAX)
+    item_name VARCHAR(MAX) NOT NULL
 )
 
 
