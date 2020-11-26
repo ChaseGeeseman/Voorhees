@@ -79,3 +79,7 @@ SET @person_id = (
     WHERE ppl.last_name = 'Write-In'
 )
 exec ins_election_history @person_id, '2020', NULL, 273, 1.07
+
+exec ins_party 'Democrat'
+exec ins_party 'Republican'
+exec ins_party 'Other'
