@@ -58,7 +58,8 @@ CREATE TABLE election_history(
                 REFERENCES party(party_id),
     vote_count INT,
     vote_percent FLOAT,
-    election_year DATE NOT NULL
+    election_year DATE NOT NULL,
+    election_history_source_item_id INT
 )
 
 /*
@@ -131,13 +132,12 @@ CREATE TABLE source_reference(
             FOREIGN KEY (item_type)
                 REFERENCES item_info(item_info_pk),
     --Reference the primary key of an ordinance or resolution
-    item_id INT NOT NULL,
+    item_id INT NOT NULL
 )
 
 
 CREATE TABLE item_info(
     item_info_pk INT IDENTITY(1,1) PRIMARY KEY,
-    item_name VARCHAR(MAX) NOT NULL
+    item_name VARCHAR(MAX) NOT NULL,
+    item_description VARCHAR(MAX)
 )
-
-
