@@ -104,5 +104,11 @@ CREATE PROCEDURE ins_party(
 AS
 SET NOCOUNT ON
 INSERT INTO dbo.party(party_name)
-VALUES(@party_name);
+SELECT @party_name
+WHERE NOT EXISTS (
+        SELECT
+            @party_name
+        FROM party
+        WHERE party.party_name = party_name)
+;
 GO
