@@ -15,7 +15,7 @@ USE voorhees
 */
 CREATE TABLE party(
     party_id int IDENTITY(1,1) PRIMARY KEY,
-    party_name VARCHAR(MAX)
+    party_name VARCHAR(50)
 )
 
 /*
