@@ -108,6 +108,12 @@ CREATE TABLE attendance(
                 REFERENCES people(person_id),
 )
 
+CREATE TABLE item_info(
+    item_info_pk INT IDENTITY(1,1) PRIMARY KEY,
+    item_name VARCHAR(MAX) NOT NULL,
+    item_description VARCHAR(MAX)
+)
+
 /*
 *   To track where various data is pulled from
 */
@@ -131,11 +137,4 @@ CREATE TABLE source_reference(
                 REFERENCES item_info(item_info_pk),
     --Reference the primary key of an ordinance or resolution
     item_id INT NOT NULL
-)
-
-
-CREATE TABLE item_info(
-    item_info_pk INT IDENTITY(1,1) PRIMARY KEY,
-    item_name VARCHAR(MAX) NOT NULL,
-    item_description VARCHAR(MAX)
 )
