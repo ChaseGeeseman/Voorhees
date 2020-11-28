@@ -10,7 +10,13 @@ CREATE DATABASE voorhees;
 */
 USE voorhees
 
-
+/*
+*   Decodes political parties
+*/
+CREATE TABLE party(
+    party_id int IDENTITY(1,1) PRIMARY KEY,
+    party_name VARCHAR(MAX)
+)
 
 /*
 *   Contains basic information on people who have ran for office.
@@ -28,14 +34,6 @@ CREATE TABLE people(
     *   0 = not serving
     */ 
     active BIT DEFAULT 0
-)
-
-/*
-*   Decodes political parties
-*/
-CREATE TABLE party(
-    party_id int IDENTITY(1,1) PRIMARY KEY,
-    party_name VARCHAR(MAX)
 )
 
 
