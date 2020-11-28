@@ -11,8 +11,8 @@ CREATE PROCEDURE ins_people(
 AS
 SET NOCOUNT ON
 INSERT INTO dbo.people(first_name, last_name, active)
-VALUES (@first_name, @last_name, @active)
-GO;
+VALUES (@first_name, @last_name, @active);
+GO
 
 ------------- meeting -----------------
 
@@ -23,8 +23,8 @@ CREATE PROCEDURE ins_meeting(
 AS
 SET NOCOUNT ON
 INSERT INTO dbo.meeting(meeting_date, sunshine_statement)
-VALUES(@meeting_date, @sunshine_statement)
-GO;
+VALUES(@meeting_date, @sunshine_statement);
+GO
 
 ------------- attendance -----------------
 
@@ -35,8 +35,8 @@ CREATE PROCEDURE ins_attendance(
 AS
 SET NOCOUNT ON
 INSERT INTO dbo.attendance(meeting_id, person_id)
-VALUES(@meeting_id, @person_id)
-GO;
+VALUES(@meeting_id, @person_id);
+GO
 
 ------------- resolutions -----------------
 
@@ -48,8 +48,8 @@ CREATE PROCEDURE ins_resolution(
 AS
 SET NOCOUNT ON
 INSERT INTO dbo.resolution(res_number, where_as,now_therefore)
-VALUES(@res_number, @where_as, @now_therefore)
-GO;
+VALUES(@res_number, @where_as, @now_therefore);
+GO
 
 ------------- election_history -----------------
 
