@@ -55,7 +55,7 @@ CREATE TABLE election_history(
             FOREIGN KEY (election_party)
                 REFERENCES party(party_id),
     vote_count INT,
-    vote_percent FLOAT,
+    vote_percent DECIMAL(5,2),
     election_year DATE NOT NULL,
     election_history_source_item_id INT
 )
