@@ -21,23 +21,23 @@ exec ins_meeting '14SEP2020','TEST';
 exec ins_meeting '10AUG2020','TEST';
 
 --add test data to the attendance table
-SET @meeting_nov = (
+DECLARE
+	@meeting_nov INT = (
     SELECT meeting_id
     FROM meeting
     WHERE meeting_date='09NOV2020'
-    )
-SET @meeting_oct = (
+    ),
+	@meeting_oct INT = (
     SELECT meeting_id
     FROM meeting
     WHERE meeting_date='26OCT2020'
-    )
-SET @meeting_sep = (
+    ),
+	@meeting_sep INT = (
     SELECT meeting_id
     FROM meeting
     WHERE meeting_date='14SEP2020'
-    )
-
-SET @person_id = (
+    ),
+	@person_id INT = (
     SELECT person_id
     FROM people
     WHERE last_name = 'Nocito'
@@ -53,9 +53,9 @@ SET @person_id = (
     WHERE last_name = 'Fetbroyt'
 )
 
-exec ins_attendance @meeting_nov, @person_id;
-exec ins_attendance @meeting_oct, @person_id;
-exec ins_attendance @meeting_sep, @person_id;
+exec ins_attendance @meeting_nov, @person_id
+exec ins_attendance @meeting_oct, @person_id
+exec ins_attendance @meeting_sep, @person_id
 
 
 
@@ -65,20 +65,20 @@ exec ins_attendance @meeting_sep, @person_id;
 */
 
 
-SET @person_id = (
+DECLARE @person_id INT = (
     SELECT ppl.person_id
     FROM people ppl
     WHERE ppl.last_name = 'MIGNOGNA'
 )
 
-exec ins_election_history @person_id, '2020','DEM', 12,670, 49.77
+exec ins_election_history @person_id, '2020',NULL, 12670, 49.77
 
 SET @person_id = (
     SELECT ppl.person_id
     FROM people ppl
     WHERE ppl.last_name = 'PLATT'
 )
-exec ins_election_history @person_id, '2020','DEM', 12,514, 49.16
+exec ins_election_history @person_id, '2020',NULL, 12514, 49.16
 
 SET @person_id = (
     SELECT ppl.person_id
@@ -86,7 +86,3 @@ SET @person_id = (
     WHERE ppl.last_name = 'Write-In'
 )
 exec ins_election_history @person_id, '2020', NULL, 273, 1.07
-
-exec ins_party 'Democrat'
-exec ins_party 'Republican'
-exec ins_party 'Other'
