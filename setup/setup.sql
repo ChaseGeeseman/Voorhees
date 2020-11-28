@@ -101,7 +101,7 @@ CREATE TABLE attendance(
     meeting_id INT NOT NULL,
         CONSTRAINT fk_attendance_meeting_id
             FOREIGN KEY (meeting_id)
-                REFERENCES meetings(meeting_id),
+                REFERENCES meeting(meeting_id),
     person_id INT NOT NULL,
         CONSTRAINT attendance_fk_person_id
             FOREIGN KEY (person_id)
