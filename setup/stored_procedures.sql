@@ -1,5 +1,8 @@
 ------------- people -----------------
 
+/*
+TODO: Update this to add a default party if none is provided.
+*/
 CREATE PROCEDURE ins_people(
         @first_name VARCHAR(MAX),
         @last_name VARCHAR(MAX),
