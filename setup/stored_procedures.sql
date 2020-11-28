@@ -26,6 +26,9 @@ INSERT INTO dbo.meeting(meeting_date, sunshine_statement)
 VALUES(@meeting_date, @sunshine_statement);
 GO
 
+
+
+
 ------------- attendance -----------------
 
 CREATE PROCEDURE ins_attendance(
@@ -62,9 +65,37 @@ CREATE PROCEDURE ins_election_history(
 )
 AS
 SET NOCOUNT ON
-INSERT INTO dbo.election_history(person_id,election_year,election_party,vote_count,vote_percent,election_year)
-VALUES(@person_id,@election_year,@election_party,@vote_count,@vote_percent,@election_year);
+INSERT INTO dbo.election_history(person_id,election_year,election_party,vote_count,vote_percent)
+VALUES(@person_id,@election_year,@election_party,@vote_count,@vote_percent);
 GO
+
+CREATE PROCEDURE view_election_history(
+	@person_id INT = NULL,
+    @election_year DATE = NULL,
+    @election_party VARCHAR(MAX) = NULL
+)
+AS
+SELECT
+	eh.election_year,
+	ppl.first_name,
+	ppl.last_name,
+	eh.election_party,
+	eh.vote_count,
+	eh.vote_percent
+FROM election_history eh
+	JOIN people ppl
+		ON eh.person_id = ppl.person_id
+WHERE eh.person_id = IIF(
+							@person_id IS NULL,
+							--If Null return all values
+							eh.person_id,
+							--If not null return specific value
+							@person_id
+						)
+ORDER BY eh.election_year, eh.vote_count DESC
+;
+GO
+
 
 ------------- party -----------------
 CREATE PROCEDURE ins_party(
@@ -75,6 +106,3 @@ SET NOCOUNT ON
 INSERT INTO dbo.party(party_name)
 VALUES(@party_name);
 GO
-
-
-
