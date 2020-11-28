@@ -1,4 +1,11 @@
 USE voorhees
+
+--add test data to the party table
+exec ins_party 'Democrat'
+exec ins_party 'Republican'
+exec ins_party 'Other'
+
+
 --add test data to the people table
 exec ins_people 'Michael', 'Mignogna', 1;
 exec ins_people 'Jason', 'Ravitz', 1;
