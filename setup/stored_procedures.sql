@@ -58,23 +58,23 @@ CREATE PROCEDURE ins_election_history(
     @election_year DATE,
     @election_party VARCHAR(MAX),
     @vote_count INT,
-    @vote_percent FLOAT
+    @vote_percent DECIMAL(5,2)
 )
 AS
 SET NOCOUNT ON
 INSERT INTO dbo.election_history(person_id,election_year,election_party,vote_count,vote_percent,election_year)
-VALUES(@person_id,@election_year,@election_party,@vote_count,@vote_percent,@election_year)
-GO;
+VALUES(@person_id,@election_year,@election_party,@vote_count,@vote_percent,@election_year);
+GO
 
 ------------- party -----------------
 CREATE PROCEDURE ins_party(
-    @party_name VARHCAR(MAX)
+    @party_name VARCHAR(MAX)
 )
 AS
 SET NOCOUNT ON
 INSERT INTO dbo.party(party_name)
-VALUES(@party_name)
-GO;
+VALUES(@party_name);
+GO
 
 
 
