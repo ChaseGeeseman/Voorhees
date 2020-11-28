@@ -138,3 +138,12 @@ CREATE TABLE source_reference(
     --Reference the primary key of an ordinance or resolution
     item_id INT NOT NULL
 )
+
+CREATE TABLE vote_history(
+	vote_history_pk INT IDENTITY(1,1) PRIMARY KEY,
+	vote_item INT,
+	voter INT,
+		CONSTRAINT vote_history_fk_voter
+			FOREIGN KEY (voter)
+				REFERENCES people(person_id)
+)
