@@ -132,8 +132,8 @@ BEGIN
            ,eh.election_party
            ,eh.vote_count
            ,eh.vote_percent
-    FROM    election_history AS eh
-        JOIN people          AS ppl
+    FROM    dbo.election_history AS eh
+        JOIN dbo.people          AS ppl
             ON eh.person_id = ppl.person_id
     WHERE   eh.person_id = IIF(@person_id IS NULL
                                 --If Null return all values
@@ -153,14 +153,14 @@ CREATE PROCEDURE ins_party
 AS
 BEGIN
     SET NOCOUNT ON;
-    INSERT INTO party
+    INSERT INTO dbo.party
     (
         party_name
     )
     SELECT  @party_name
     WHERE   NOT EXISTS
     (
-        SELECT  @party_name FROM    party WHERE party.party_name = party_name
+        SELECT  @party_name FROM    dbo.party WHERE party.party_name = party_name
     );
 END;
 GO
