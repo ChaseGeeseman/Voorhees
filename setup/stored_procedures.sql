@@ -31,8 +31,8 @@ GO
 
 CREATE PROCEDURE ins_meeting
 (
-    @meeting_date DATE
-   ,@sunshine_statement VARCHAR(MAX)
+    @ins_meeting_date DATE
+   ,@ins_sunshine_statement VARCHAR(MAX)
 )
 AS
 BEGIN
@@ -42,12 +42,10 @@ BEGIN
         meeting_date
        ,sunshine_statement
     )
-    VALUES
-    ( @meeting_date, @sunshine_statement );
+    SELECT @ins_meeting_date
+	WHERE NOT EXISTS (SELECT @ins_meeting_date FROM dbo.meeting AS m WHERE m.meeting_date = @ins_meeting_date)
 END;
 GO
-
-
 
 
 ------------- attendance -----------------
