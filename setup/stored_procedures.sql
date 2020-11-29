@@ -47,9 +47,11 @@ CREATE PROCEDURE ins_attendance(
         @person_id INT
     )
 AS
+BEGIN
 SET NOCOUNT ON
 INSERT INTO dbo.attendance(meeting_id, person_id)
-VALUES(@meeting_id, @person_id);
+VALUES(@meeting_id, @person_id)
+END;
 GO
 
 ------------- resolutions -----------------
@@ -60,9 +62,11 @@ CREATE PROCEDURE ins_resolution(
         @now_therefore VARCHAR(MAX) 
     )
 AS
+BEGIN
 SET NOCOUNT ON
 INSERT INTO dbo.resolution(res_number, where_as,now_therefore)
-VALUES(@res_number, @where_as, @now_therefore);
+VALUES(@res_number, @where_as, @now_therefore)
+END;
 GO
 
 ------------- election_history -----------------
@@ -75,9 +79,11 @@ CREATE PROCEDURE ins_election_history(
     @vote_percent DECIMAL(5,2)
 )
 AS
+BEGIN
 SET NOCOUNT ON
 INSERT INTO dbo.election_history(person_id,election_year,election_party,vote_count,vote_percent)
-VALUES(@person_id,@election_year,@election_party,@vote_count,@vote_percent);
+VALUES(@person_id,@election_year,@election_party,@vote_count,@vote_percent)
+END;
 GO
 
 CREATE PROCEDURE view_election_history(
@@ -86,6 +92,7 @@ CREATE PROCEDURE view_election_history(
     @election_party VARCHAR(MAX) = NULL
 )
 AS
+BEGIN
 SELECT
 	eh.election_year,
 	ppl.first_name,
@@ -104,7 +111,7 @@ WHERE eh.person_id = IIF(
 							@person_id
 						)
 ORDER BY eh.election_year, eh.vote_count DESC
-;
+END;
 GO
 
 
@@ -113,6 +120,7 @@ CREATE PROCEDURE ins_party(
     @party_name VARCHAR(MAX)
 )
 AS
+BEGIN
 SET NOCOUNT ON
 INSERT INTO dbo.party(party_name)
 SELECT @party_name
@@ -121,5 +129,5 @@ WHERE NOT EXISTS (
             @party_name
         FROM party
         WHERE party.party_name = party_name)
-;
+END;
 GO
