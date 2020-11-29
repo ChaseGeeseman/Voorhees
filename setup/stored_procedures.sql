@@ -1,18 +1,26 @@
+USE voorhees;
+GO
+
+
 ------------- people -----------------
 
 /*
 TODO: Update this to add a default party if none is provided.
 */
+
 CREATE PROCEDURE ins_people(
         @first_name VARCHAR(MAX),
         @last_name VARCHAR(MAX),
         @active BIT
     )
 AS
+BEGIN
 SET NOCOUNT ON
 INSERT INTO dbo.people(first_name, last_name, active)
-VALUES (@first_name, @last_name, @active);
+VALUES (@first_name, @last_name, @active)
+END;
 GO
+
 
 ------------- meeting -----------------
 
@@ -21,9 +29,12 @@ CREATE PROCEDURE ins_meeting(
         @sunshine_statement VARCHAR(MAX)
     )
 AS
+BEGIN
 SET NOCOUNT ON
 INSERT INTO dbo.meeting(meeting_date, sunshine_statement)
-VALUES(@meeting_date, @sunshine_statement);
+VALUES(@meeting_date, @sunshine_statement)
+END
+;
 GO
 
 
