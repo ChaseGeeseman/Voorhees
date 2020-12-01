@@ -1,5 +1,6 @@
 USE voorhees;
 SET XACT_ABORT ON;
+SET NOCOUNT ON;
 GO
 
 /*
@@ -196,7 +197,7 @@ DECLARE @last_row             INT =
 
 WHILE( @current_row <= @last_row )
 BEGIN
-
+    --ins_resolution
     SET @input_res_meeting_id =
     (
         SELECT  ir.res_meeting_id
@@ -247,6 +248,36 @@ BEGIN
                            ,@where_as = @input_where_as
                            ,@now_therefore = @input_now_therefore
                            ,@dated = @input_dated;
+
+
+    --ins_meeting_order
+    DECLARE @res_item_id INT =
+            (
+                SELECT  r.primary_key
+                FROM    dbo.resolution r
+                WHERE   r.res_meeting_id = @input_res_meeting_id
+                        AND r.res_number = @input_res_number
+                        AND COALESCE(   r.res_reading
+                                       ,'255'
+                                    ) = COALESCE(   COALESCE(   @input_res_reading
+                                                               ,r.res_reading
+                                                            )
+                                                   ,'255'
+                                                )
+            );
+
+    DECLARE @imported_meeting_order INT =
+            (
+                SELECT  ir.res_meeting_order
+                FROM    dbo.import_20201109_res ir
+                WHERE   ir.import_order = @current_row
+            );
+
+    EXEC dbo.ins_meeting_order @input_meeting_id = @input_res_meeting_id        -- int
+                              ,@input_item_id = @res_item_id                    -- int
+                              ,@input_item_type = 1                             -- All resolutions are 1
+                              ,@input_meeting_order = @imported_meeting_order;  -- int
+
 
     SET @current_row = @current_row + 1;
 
