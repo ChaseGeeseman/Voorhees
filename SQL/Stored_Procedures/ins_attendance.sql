@@ -8,6 +8,11 @@ CREATE PROCEDURE ins_attendance
    ,@input_person_id INT = NULL
    ,@input_last_name VARCHAR(MAX) = NULL
    ,@input_first_name VARCHAR(MAX) = NULL
+   ,@input_roll_1 VARCHAR(MAX) = NULL
+   ,@input_roll_2 VARCHAR(MAX) = NULL
+   ,@input_roll_3 VARCHAR(MAX) = NULL
+   ,@input_roll_4 VARCHAR(MAX) = NULL
+   ,@input_roll_5 VARCHAR(MAX) = NULL
 )
 AS
 BEGIN
@@ -15,7 +20,17 @@ BEGIN
         SET NOCOUNT ON;
         DECLARE @duplicate_check INT;
 
-        IF( @input_person_id IS NULL )
+        IF(
+              @input_person_id IS NULL
+              AND
+                (
+                    @input_roll_1 IS NULL
+                    AND @input_roll_2 IS NULL
+                    AND @input_roll_3 IS NULL
+                    AND @input_roll_4 IS NULL
+                    AND @input_roll_5 IS NULL
+                )
+          )
         BEGIN
             IF( @input_last_name IS NULL AND @input_first_name IS NULL )
                 RAISERROR(
@@ -53,22 +68,35 @@ BEGIN
                 WHERE   ppl.last_name = @input_last_name
             );
         END;
-        INSERT INTO dbo.attendance
-        (
-            meeting_id
-           ,person_id
-        )
-        SELECT  @input_meeting_id
-               ,@input_person_id
-        WHERE   NOT EXISTS
-        (
-            SELECT  @input_meeting_id
-            FROM    dbo.attendance a
-            WHERE   a.meeting_id = @input_meeting_id
-                    AND a.person_id = @input_person_id
-        );
 
+        --IF ROLL CALL NOT NULL
+        IF(
+              @input_roll_1 IS NOT NULL
+              OR @input_roll_2 IS NOT NULL
+              OR @input_roll_3 IS NOT NULL
+              OR @input_roll_4 IS NOT NULL
+              OR @input_roll_5 IS NOT NULL
+          )
+        BEGIN
 
+            --The helper will ignore NULL values, so just pass them all in
+            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
+                                          ,@input_person_id = @input_roll_1;
+            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
+                                          ,@input_person_id = @input_roll_2;
+            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
+                                          ,@input_person_id = @input_roll_3;
+            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
+                                          ,@input_person_id = @input_roll_4;
+            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
+                                          ,@input_person_id = @input_roll_5;
+
+            --If we have roll call we don't have first or last names so let's get out of here
+            RETURN 0;
+        END;
+        --IF ROLL CALL NULL
+        EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
+                                      ,@input_person_id = @input_person_id;
     END TRY
     BEGIN CATCH
         DECLARE @ErrorMessage NVARCHAR(4000);
