@@ -59,7 +59,7 @@ BEGIN
                 --Determine the number of records to go through
                 DECLARE @last_row       INT =
                         (
-                            SELECT  MAX(lp.primary_key)FROM dbo.#list_present lp
+                            SELECT  MAX(lp.primary_key)FROM @list_present lp
                         )
                        ,@current_row    INT = 1
                        ,@imported_voter VARCHAR(MAX)
@@ -80,7 +80,7 @@ BEGIN
                     SET @imported_voter =
                     (
                         SELECT  lp.person_id
-                        FROM    @list_present lp lp
+                        FROM    @list_present lp
                         WHERE   lp.primary_key = @current_row
                     );
 
