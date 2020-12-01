@@ -14,7 +14,7 @@ BEGIN
     SELECT  @party_name
     WHERE   NOT EXISTS
     (
-        SELECT  @party_name FROM    dbo.party WHERE party.party_name = party_name
+        SELECT  @party_name FROM    dbo.party WHERE party.party_name = @party_name
     );
 END;
 GO
