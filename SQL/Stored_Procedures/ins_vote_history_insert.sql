@@ -1,31 +1,31 @@
 USE voorhees;
 GO
+DROP PROCEDURE IF EXISTS ins_vote_history_insert;
+GO
+
 
 CREATE PROCEDURE dbo.ins_vote_history_insert
 (
     @input_vote_item INT
    ,@input_vote_item_type INT
    ,@input_voter VARCHAR(MAX)
+   ,@input_vote INT
 )
 AS
 BEGIN
-    IF( @input_person_id IS NOT NULL )
     BEGIN
         INSERT INTO dbo.vote_history
         (
             vote_item
            ,vote_item_type
            ,voter
+           ,vote
         )
-        SELECT  0
-               ,0
-               ,0;
+        SELECT  @input_vote_item
+               ,@input_vote_item_type
+               ,@input_voter
+               ,@input_vote;
 
-			   
-       /* WHERE   NOT EXISTS
-        (
-           1=1
-        );*/
     END;
 END;
 GO
