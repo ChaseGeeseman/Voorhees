@@ -30,11 +30,11 @@ BEGIN
                                     ,eh.election_year
                                     --If not null return specific value
                                     ,@election_year)
-            AND @election_party = IIF(@election_year IS NULL
+            AND @election_party = IIF(@election_party IS NULL
                                         --If Null return all values
                                      ,eh.election_party
                                         --If not null return specific value
-                                     ,@election_year)
+                                     ,@election_party)
     ORDER BY eh.election_year
             ,eh.vote_count DESC;
 END;
