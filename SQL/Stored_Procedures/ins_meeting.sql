@@ -18,10 +18,11 @@ BEGIN
             WHERE   m.meeting_date = @ins_meeting_date
         )
         BEGIN
+            DECLARE @meeting_var VARCHAR(255) = CAST(@ins_meeting_date AS VARCHAR(255));
             RAISERROR(   'A meeting record for %s already exists'   -- Message text.  
                         ,16                                         -- Severity.  
                         ,1                                          -- State.
-                        ,@ins_meeting_date                          --Example variable insert, %d for INT types
+                        ,@meeting_var                               --Example variable insert, %d for INT types
                      );
         END;
         INSERT INTO dbo.meeting
