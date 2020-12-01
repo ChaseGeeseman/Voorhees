@@ -78,18 +78,17 @@ BEGIN
               OR @input_roll_5 IS NOT NULL
           )
         BEGIN
-
-            --The helper will ignore NULL values, so just pass them all in
-            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
-                                          ,@input_person_id = @input_roll_1;
-            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
-                                          ,@input_person_id = @input_roll_2;
-            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
-                                          ,@input_person_id = @input_roll_3;
-            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
-                                          ,@input_person_id = @input_roll_4;
-            EXEC dbo.ins_attendance_insert @input_meeting_id = @input_meeting_id
-                                          ,@input_person_id = @input_roll_5;
+            --This will check if the last name is a dupe, and if not insert it into the table
+            EXEC dbo.ins_attendance_dup_check @last_name_to_check = @input_roll_1   -- varchar(max)
+                                             ,@meeting_id = @input_meeting_id;      -- int
+            EXEC dbo.ins_attendance_dup_check @last_name_to_check = @input_roll_2   -- varchar(max)
+                                             ,@meeting_id = @input_meeting_id;      -- int
+            EXEC dbo.ins_attendance_dup_check @last_name_to_check = @input_roll_3   -- varchar(max)
+                                             ,@meeting_id = @input_meeting_id;      -- int
+            EXEC dbo.ins_attendance_dup_check @last_name_to_check = @input_roll_4   -- varchar(max)
+                                             ,@meeting_id = @input_meeting_id;      -- int
+            EXEC dbo.ins_attendance_dup_check @last_name_to_check = @input_roll_5   -- varchar(max)
+                                             ,@meeting_id = @input_meeting_id;      -- int
 
             --If we have roll call we don't have first or last names so let's get out of here
             RETURN 0;
