@@ -7,6 +7,18 @@ CREATE PROCEDURE dbo.ins_and_dup_check
     @last_name_to_check VARCHAR(MAX)
    ,@meeting_id INT
    ,@ins_type INT
+   ,@all_aye BIT = NULL             -- bit
+   ,@all_naye BIT = NULL            -- bit
+   ,@voter_1 VARCHAR(255) = NULL    -- varchar(255)
+   ,@voter_1_vote INT = NULL        -- int
+   ,@voter_2 VARCHAR(255) = NULL    -- varchar(255)
+   ,@voter_2_vote INT = NULL        -- int
+   ,@voter_3 VARCHAR(255) = NULL    -- varchar(255)
+   ,@voter_3_vote INT = NULL        -- int
+   ,@voter_4 VARCHAR(255) = NULL    -- varchar(255)
+   ,@voter_4_vote INT = NULL        -- int
+   ,@voter_5 VARCHAR(255) = NULL    -- varchar(255)
+   ,@voter_5_vote INT = NULL        -- int
 )
 AS
 BEGIN
@@ -37,14 +49,29 @@ BEGIN
                     FROM    dbo.people ppl2
                     WHERE   ppl2.last_name = @last_name_to_check
                 );
+        --0 = attendance
         IF( @ins_type = 0 )
         BEGIN
             EXEC dbo.ins_attendance_insert @input_meeting_id = @meeting_id  -- int
                                           ,@input_person_id = @input_person_id;
             RETURN 0;
         END;
+        --1 = resolution
         IF( @ins_type = 1 )
         BEGIN
+            EXEC dbo.ins_vote_history @all_aye = @all_aye       -- bit
+                                     ,@all_naye = @all_naye      -- bit
+                                     ,@voter_1 = @voter_1         -- varchar(255)
+                                     ,@voter_1_vote = @voter_1_vote     -- int
+                                     ,@voter_2 = @voter_2        -- varchar(255)
+                                     ,@voter_2_vote = @voter_2_vote     -- int
+                                     ,@voter_3 = @voter_3         -- varchar(255)
+                                     ,@voter_3_vote = @voter_3_vote     -- int
+                                     ,@voter_4 = @voter_4         -- varchar(255)
+                                     ,@voter_4_vote = @voter_4_vote     -- int
+                                     ,@voter_5 = @voter_5         -- varchar(255)
+                                     ,@voter_5_vote = @voter_5_vote;    -- int
+
             RETURN 0;
         END;
         RETURN 0;
