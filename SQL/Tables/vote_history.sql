@@ -10,4 +10,5 @@ CREATE TABLE dbo.vote_history
    ,CONSTRAINT vote_history_fk_voter
         FOREIGN KEY( voter )
         REFERENCES dbo.people( person_id )
+	,vote INT NOT NULL
 );
