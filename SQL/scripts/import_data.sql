@@ -4,8 +4,21 @@ SET NOCOUNT ON;
 GO
 
 /*
-note import_20201109_general_general is here for testing only, if you have a real import
-be sure to update the name appropriatly!
+Note various tables are created here, and their names should be updated with each run
+
+table names should be 
+
+import_YYYYMMDD_sheetName
+
+The date is the date that you're importing the data, the sheet name is the sheet of the excel doc abrieviated.
+
+IE
+import_20201109_general - General info
+import_20201109_res - for resolutions
+import_20201109_ord - for ordinances
+
+You cannot import ord or res data without having a general table present!
+
 */
 
 
@@ -200,17 +213,17 @@ BEGIN
     --ins_resolution
     SET @input_res_meeting_id =
     (
-		SELECT m.meeting_id
-		FROM dbo.meeting m
-		WHERE m.meeting_date =
-							(
-								SELECT  ig.meeting_date
-								FROM    dbo.import_20201109_res ir
-									JOIN dbo.import_20201109_general ig
-										ON ig.import_order = ir.res_meeting_id
-								WHERE   ir.import_order = @current_row
-							)
-	);
+        SELECT  m.meeting_id
+        FROM    dbo.meeting m
+        WHERE   m.meeting_date =
+        (
+            SELECT  ig.meeting_date
+            FROM    dbo.import_20201109_res      ir
+                JOIN dbo.import_20201109_general ig
+                    ON ig.import_order = ir.res_meeting_id
+            WHERE   ir.import_order = @current_row
+        )
+    );
     SET @input_res_reading =
     (
         SELECT  ir.res_reading
