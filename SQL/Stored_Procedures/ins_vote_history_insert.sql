@@ -1,6 +1,6 @@
 USE voorhees;
 GO
-DROP PROCEDURE IF EXISTS ins_vote_history_insert;
+DROP PROCEDURE IF EXISTS dbo.ins_vote_history_insert;
 GO
 
 
@@ -24,7 +24,14 @@ BEGIN
         SELECT  @input_vote_item
                ,@input_vote_item_type
                ,@input_voter
-               ,@input_vote;
+               ,@input_vote
+        WHERE   NOT EXISTS
+        (
+            SELECT  vh.voter
+            FROM    dbo.vote_history vh
+            WHERE   vh.vote_item = @input_vote_item
+                    AND vh.voter = @input_vote
+        );
 
     END;
 END;
