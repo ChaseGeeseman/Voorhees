@@ -133,6 +133,7 @@ BEGIN
                     );
                     EXEC dbo.ins_attendance_insert @input_meeting_id = @meeting_id  -- int
                                                   ,@input_person_id = @input_person_id;
+                    SET @current_row = @current_row + 1;
                 END;
 
             END;
