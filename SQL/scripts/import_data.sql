@@ -139,7 +139,7 @@ CREATE TABLE dbo.import_20201109_res
     import_order INT PRIMARY KEY
    ,res_meeting_id INT NOT NULL
         CONSTRAINT fk_import_20201109_res
-        FOREIGN KEY( res_meeting_id )REFERENCES dbo.meeting( meeting_id )
+        FOREIGN KEY( res_meeting_id )REFERENCES dbo.import_20201109_general( import_order )
    ,res_meeting_order VARCHAR(MAX) NOT NULL
    ,res_reading VARCHAR(MAX) NULL
    ,res_number VARCHAR(MAX) NULL
@@ -201,10 +201,17 @@ BEGIN
     --ins_resolution
     SET @input_res_meeting_id =
     (
-        SELECT  ir.res_meeting_id
-        FROM    dbo.import_20201109_res ir
-        WHERE   ir.import_order = @current_row
-    );
+		SELECT m.meeting_id
+		FROM dbo.meeting m
+		WHERE m.meeting_date =
+							(
+								SELECT  ig.meeting_date
+								FROM    dbo.import_20201109_res ir
+									JOIN dbo.import_20201109_general ig
+										ON ig.import_order = ir.res_meeting_id
+								WHERE   ir.import_order = @current_row
+							)
+	);
     SET @input_res_reading =
     (
         SELECT  ir.res_reading
