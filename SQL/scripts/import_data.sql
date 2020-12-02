@@ -278,104 +278,101 @@ BEGIN
                               ,@input_item_id = @res_item_id                    -- int
                               ,@input_item_type = 1                             -- All resolutions are 1
                               ,@input_meeting_order = @imported_meeting_order;  -- int
-
-
-    --Import the vote history for resolutions
-    DECLARE @all_aye      BIT          =
-            (
-                SELECT  ir.all_aye
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@all_naye     BIT          =
-            (
-                SELECT  ir.all_naye
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_1      VARCHAR(255) =
-            (
-                SELECT  ir.voter_1
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_1_vote INT          =
-            (
-                SELECT  ir.voter_1_vote
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_2      VARCHAR(255) =
-            (
-                SELECT  ir.voter_2
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_2_vote INT          =
-            (
-                SELECT  ir.voter_2_vote
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_3      VARCHAR(255) =
-            (
-                SELECT  ir.voter_3
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_3_vote INT          =
-            (
-                SELECT  ir.voter_3_vote
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_4      VARCHAR(255) =
-            (
-                SELECT  ir.voter_4
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_4_vote INT          =
-            (
-                SELECT  ir.voter_4_vote
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_5      VARCHAR(255) =
-            (
-                SELECT  ir.voter_5
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            )
-           ,@voter_5_vote INT          =
-            (
-                SELECT  ir.voter_5_vote
-                FROM    dbo.import_20201109_res ir
-                WHERE   ir.import_order = @current_row
-            );
-
-
-
-    EXEC dbo.ins_vote_history @all_aye = @all_aye               -- bit
-                             ,@all_naye = @all_naye             -- bit
-                             ,@voter_1 = @voter_1               -- varchar(255)
-                             ,@voter_1_vote = @voter_1_vote     -- int
-                             ,@voter_2 = @voter_2               -- varchar(255)
-                             ,@voter_2_vote = @voter_2_vote     -- int
-                             ,@voter_3 = @voter_3               -- varchar(255)
-                             ,@voter_3_vote = @voter_3_vote     -- int
-                             ,@voter_4 = @voter_4               -- varchar(255)
-                             ,@voter_4_vote = @voter_4_vote     -- int
-                             ,@voter_5 = @voter_5               -- varchar(255)
-                             ,@voter_5_vote = @voter_5_vote     -- int
-                             ,@input_vote_item = @res_item_id   -- int
-                             ,@input_vote_item_type = 1;        -- int
-
-
-
-
-
     SET @current_row = @current_row + 1;
-
 END;
 
+--Import the vote history for resolutions
+DECLARE @all_aye      BIT          =
+        (
+            SELECT  ir.all_aye
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@all_naye     BIT          =
+        (
+            SELECT  ir.all_naye
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_1      VARCHAR(255) =
+        (
+            SELECT  ir.voter_1
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_1_vote INT          =
+        (
+            SELECT  ir.voter_1_vote
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_2      VARCHAR(255) =
+        (
+            SELECT  ir.voter_2
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_2_vote INT          =
+        (
+            SELECT  ir.voter_2_vote
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_3      VARCHAR(255) =
+        (
+            SELECT  ir.voter_3
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_3_vote INT          =
+        (
+            SELECT  ir.voter_3_vote
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_4      VARCHAR(255) =
+        (
+            SELECT  ir.voter_4
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_4_vote INT          =
+        (
+            SELECT  ir.voter_4_vote
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_5      VARCHAR(255) =
+        (
+            SELECT  ir.voter_5
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        )
+       ,@voter_5_vote INT          =
+        (
+            SELECT  ir.voter_5_vote
+            FROM    dbo.import_20201109_res ir
+            WHERE   ir.import_order = @current_row
+        );
+
+
+
+EXEC dbo.ins_vote_history @all_aye = @all_aye               -- bit
+                         ,@all_naye = @all_naye             -- bit
+                         ,@voter_1 = @voter_1               -- varchar(255)
+                         ,@voter_1_vote = @voter_1_vote     -- int
+                         ,@voter_2 = @voter_2               -- varchar(255)
+                         ,@voter_2_vote = @voter_2_vote     -- int
+                         ,@voter_3 = @voter_3               -- varchar(255)
+                         ,@voter_3_vote = @voter_3_vote     -- int
+                         ,@voter_4 = @voter_4               -- varchar(255)
+                         ,@voter_4_vote = @voter_4_vote     -- int
+                         ,@voter_5 = @voter_5               -- varchar(255)
+                         ,@voter_5_vote = @voter_5_vote     -- int
+                         ,@input_vote_item = @res_item_id   -- int
+                         ,@input_vote_item_type = 1;        -- int
+
+
+
+SELECT  COUNT(*)
+FROM    dbo.vote_history vh;
