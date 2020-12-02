@@ -27,12 +27,12 @@ BEGIN
                ,@input_vote
         WHERE   NOT EXISTS
         (
-            SELECT  vh.voter
+            SELECT  @input_vote_item
             FROM    dbo.vote_history vh
             WHERE   vh.vote_item = @input_vote_item
                     AND vh.voter = @input_vote
+					AND vh.vote_item_type = @input_vote_item_type
         );
-
     END;
 END;
 GO
