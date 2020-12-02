@@ -8,7 +8,7 @@ CREATE PROCEDURE dbo.ins_vote_history
 (
     @all_aye BIT
    ,@all_naye BIT
-   --Person ID isn't really planned to be used yet but I think it should be here
+    --Person ID isn't really planned to be used yet but I think it should be here
    ,@person_id INT
    ,@voter_1 VARCHAR(255) = NULL
    ,@voter_1_vote INT
@@ -102,7 +102,27 @@ BEGIN
         SET @voter_4 = dbo.fun_format_name(@voter_4);
         SET @voter_5 = dbo.fun_format_name(@voter_5);
 
-
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
+                                        ,@input_vote_item_type = 1              -- int
+                                        ,@input_voter = @voter_1                -- varchar(max)
+                                        ,@input_vote = @voter_1_vote;           -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
+                                        ,@input_vote_item_type = 1              -- int
+                                        ,@input_voter = @voter_2                -- varchar(max)
+                                        ,@input_vote = @voter_2_vote;           -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
+                                        ,@input_vote_item_type = 1              -- int
+                                        ,@input_voter = @voter_3                -- varchar(max)
+                                        ,@input_vote = @voter_3_vote;           -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
+                                        ,@input_vote_item_type = 1              -- int
+                                        ,@input_voter = @voter_4                -- varchar(max)
+                                        ,@input_vote = @voter_4_vote;           -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
+                                        ,@input_vote_item_type = 1              -- int
+                                        ,@input_voter = @voter_5                -- varchar(max)
+                                        ,@input_vote = @voter_5_vote;           -- int
+        RETURN 0;
 
 
     /*
