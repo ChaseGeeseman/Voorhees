@@ -25,9 +25,6 @@ AS
 BEGIN
     BEGIN TRY
 
-        SELECT  NEWID() AS ColId;
-
-
         /*
 			If everyone voted yes, or no we will grab the list of those who attended that meeting and loop through them
 		*/
@@ -91,15 +88,33 @@ BEGIN
                                                     ,@input_vote = @imported_vote;
                     SET @current_row = @current_row + 1;
                 END;
-
+                RETURN 0;
 
 
             END;
         END;
-    --Else we need to process each persons name individually
-
+        --Else we need to process each persons name individually
+        SET @voter_1 = dbo.fun_format_name(@voter_1);
+        SET @voter_2 = dbo.fun_format_name(@voter_2);
+        SET @voter_3 = dbo.fun_format_name(@voter_3);
+        SET @voter_4 = dbo.fun_format_name(@voter_4);
+        SET @voter_5 = dbo.fun_format_name(@voter_5);
 
     /*
+   ,@voter_1 VARCHAR(255) = NULL
+   ,@voter_1_vote INT
+   ,@voter_2 VARCHAR(255) = NULL
+   ,@voter_2_vote INT
+   ,@voter_3 VARCHAR(255) = NULL
+   ,@voter_3_vote INT
+   ,@voter_4 VARCHAR(255) = NULL
+   ,@voter_4_vote INT
+   ,@voter_5 VARCHAR(255) = NULL
+   ,@voter_5_vote INT
+
+
+
+
         DECLARE @error_example VARCHAR(255) = 'message';
         RAISERROR(   'Example error %s' -- Message text.  
                     ,16                 -- Severity.  

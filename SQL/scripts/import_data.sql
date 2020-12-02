@@ -118,12 +118,13 @@ BEGIN
                 FROM    dbo.import_20201109_general i
                 WHERE   i.import_order = @current_row
             );
-    EXEC dbo.ins_attendance @input_meeting_id = @meeting_id -- int
-                           ,@input_roll_1 = @roll1
-                           ,@input_roll_2 = @roll2
-                           ,@input_roll_3 = @roll3
-                           ,@input_roll_4 = @roll4
-                           ,@input_roll_5 = @roll5;
+    EXEC dbo.ins_and_dup_check @meeting_id = @meeting_id    -- int
+                              ,@ins_type = 0
+                              ,@roll_1 = @roll1
+                              ,@roll_2 = @roll2
+                              ,@roll_3 = @roll3
+                              ,@roll_4 = @roll4
+                              ,@roll_5 = @roll5;
     SET @current_row = @current_row + 1;
 
 
@@ -371,6 +372,10 @@ BEGIN
                              ,@input_vote_item_type = 1;        -- int
 
 
+
+
+
     SET @current_row = @current_row + 1;
 
 END;
+
