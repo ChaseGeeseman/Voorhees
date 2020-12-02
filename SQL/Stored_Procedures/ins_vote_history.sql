@@ -8,6 +8,8 @@ CREATE PROCEDURE dbo.ins_vote_history
 (
     @all_aye BIT
    ,@all_naye BIT
+   --Person ID isn't really planned to be used yet but I think it should be here
+   ,@person_id INT
    ,@voter_1 VARCHAR(255) = NULL
    ,@voter_1_vote INT
    ,@voter_2 VARCHAR(255) = NULL
@@ -99,6 +101,9 @@ BEGIN
         SET @voter_3 = dbo.fun_format_name(@voter_3);
         SET @voter_4 = dbo.fun_format_name(@voter_4);
         SET @voter_5 = dbo.fun_format_name(@voter_5);
+
+
+
 
     /*
    ,@voter_1 VARCHAR(255) = NULL
