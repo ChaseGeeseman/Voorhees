@@ -161,7 +161,6 @@ CREATE TABLE dbo.import_20201109_res
    ,voter_5_vote VARCHAR(MAX) NULL
 );
 
-
 --Insert our imported data
 BULK INSERT dbo.import_20201109_res
 FROM 'D:\Downloads\test-res.csv'
@@ -382,3 +381,173 @@ BEGIN
 
 END;
 
+--Import ord info
+
+DROP TABLE IF EXISTS dbo.import_20201109_ord;
+GO
+
+CREATE TABLE dbo.import_20201109_ord
+(
+    import_order INT PRIMARY KEY
+   ,ord_meeting_id INT NOT NULL
+        CONSTRAINT fk_import_20201109_ord
+        FOREIGN KEY( ord_meeting_id )REFERENCES dbo.import_20201109_general( import_order )
+   ,order_in_meeting INT NOT NULL
+   ,ord_reading VARCHAR(255) NULL
+   ,ord_number VARCHAR(255) NULL
+   ,ord_title VARCHAR(MAX) NULL
+   ,ord_where_as VARCHAR(MAX) NULL
+   ,ord_now_therefore VARCHAR(MAX) NULL
+   ,ord_Introduced VARCHAR(MAX) NULL
+   ,Adopted VARCHAR(MAX) NULL
+   ,all_aye VARCHAR(MAX) NULL
+   ,all_naye VARCHAR(MAX) NULL
+   ,voter_1 VARCHAR(MAX) NULL
+   ,voter_1_vote VARCHAR(MAX) NULL
+   ,voter_2 VARCHAR(MAX) NULL
+   ,voter_2_vote VARCHAR(MAX) NULL
+   ,voter_3 VARCHAR(MAX) NULL
+   ,voter_3_vote VARCHAR(MAX) NULL
+   ,voter_4 VARCHAR(MAX) NULL
+   ,voter_4_vote VARCHAR(MAX) NULL
+   ,voter_5 VARCHAR(MAX) NULL
+   ,voter_5_vote VARCHAR(MAX) NULL
+);
+
+
+
+--Insert our imported data
+BULK INSERT dbo.import_20201109_ord
+FROM 'D:\Downloads\test-ord.csv'
+WITH
+(
+    FORMAT = 'CSV'
+   ,KEEPNULLS
+);
+
+/*
+cleanup header row. import order is an imported value, not assigned by SQL.
+*/
+DELETE  FROM dbo.import_20201109_ord
+WHERE   import_order = 1;
+
+/*
+Loop through the imported results and insert into the appropriate tables
+*/
+DECLARE @last_row             INT =
+        (
+            SELECT  MAX(i.import_order)FROM dbo.import_20201109_ord i
+        )
+       ,@current_row          INT = 2
+        --Needed for ins_ordinance
+       ,@input_ord_meeting_id INT
+       ,@input_ord_reading    VARCHAR(MAX)
+       ,@input_ord_number     VARCHAR(MAX)
+       ,@input_ord_title      VARCHAR(MAX)
+       ,@input_where_as       VARCHAR(MAX)
+       ,@input_now_therefore  VARCHAR(MAX)
+       ,@input_introduced     DATE
+       ,@input_adopted        DATE;
+
+WHILE( @current_row <= @last_row )
+BEGIN
+    --ins_ordinance
+    SET @input_ord_meeting_id =
+    (
+        SELECT  m.meeting_id
+        FROM    dbo.meeting m
+        WHERE   m.meeting_date =
+        (
+            SELECT  ig.meeting_date
+            FROM    dbo.import_20201109_ord      ir
+                JOIN dbo.import_20201109_general ig
+                    ON ig.import_order = ir.ord_meeting_id
+            WHERE   ir.import_order = @current_row
+        )
+    );
+    SET @input_ord_reading =
+    (
+        SELECT  ir.ord_reading
+        FROM    dbo.import_20201109_ord ir
+        WHERE   ir.import_order = @current_row
+    );
+    SET @input_ord_number =
+    (
+        SELECT  ir.ord_number
+        FROM    dbo.import_20201109_ord ir
+        WHERE   ir.import_order = @current_row
+    );
+    SET @input_ord_title =
+    (
+        SELECT  ir.ord_title
+        FROM    dbo.import_20201109_ord ir
+        WHERE   ir.import_order = @current_row
+    );
+    SET @input_where_as =
+    (
+        SELECT  ir.ord_where_as
+        FROM    dbo.import_20201109_ord ir
+        WHERE   ir.import_order = @current_row
+    );
+    SET @input_now_therefore =
+    (
+        SELECT  ir.ord_now_therefore
+        FROM    dbo.import_20201109_ord ir
+        WHERE   ir.import_order = @current_row
+    );
+    SET @input_introduced =
+    (
+        SELECT  ir.ord_Introduced
+        FROM    dbo.import_20201109_ord ir
+        WHERE   ir.import_order = @current_row
+    );
+	    SET @input_adopted =
+    (
+        SELECT  ir.Adopted
+        FROM    dbo.import_20201109_ord ir
+        WHERE   ir.import_order = @current_row
+    );
+
+    EXEC dbo.ins_ordinance @ins_ord_meeting_id = @input_ord_meeting_id          -- int
+                          ,@ins_ord_reading = @input_ord_reading            -- varchar(max)
+                          ,@ins_ord_number = @input_ord_number             -- varchar(max)
+                          ,@ins_ord_title = @input_ord_title              -- varchar(max)
+                          ,@ins_where_as = @input_where_as               -- varchar(max)
+                          ,@ins_now_therefore = @input_now_therefore          -- varchar(max)
+                          ,@ins_introduced = @input_introduced   -- date
+                          ,@ins_adopted = @input_adopted      -- date
+
+
+    --ins_meeting_order
+    DECLARE @ord_item_id INT =
+            (
+                SELECT  o.primary_key
+                FROM    dbo.ordinance o
+                WHERE   o.meeting_id = @input_ord_meeting_id
+                        AND o.ord_number = @input_ord_number
+                        AND COALESCE(   o.ord_reading
+                                       ,'255'
+                                    ) = COALESCE(   COALESCE(   @input_ord_reading
+                                                               ,o.ord_reading
+                                                            )
+                                                   ,'255'
+                                                )
+            );
+
+    DECLARE @imported_meeting_order INT =
+            (
+                SELECT  ir.order_in_meeting
+                FROM    dbo.import_20201109_ord ir
+                WHERE   ir.import_order = @current_row
+            );
+
+    EXEC dbo.ins_meeting_order @input_meeting_id = @input_ord_meeting_id        -- int
+                              ,@input_item_id = @ord_item_id                    -- int
+                              ,@input_item_type = 2                             -- All ords are 2
+                              ,@input_meeting_order = @imported_meeting_order;  -- int
+    SET @current_row = @current_row + 1;
+END;
+
+/*
+
+*/
