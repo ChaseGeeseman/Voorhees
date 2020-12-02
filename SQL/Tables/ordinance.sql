@@ -6,6 +6,7 @@ GO
 CREATE TABLE dbo.ordinance
 (
     primary_key INT IDENTITY(1, 1) PRIMARY KEY
+	,meeting_id INT NOT NULL
    ,ord_number VARCHAR(7) NOT NULL
    ,ord_reading INT NOT NULL
    ,ord_title VARCHAR(MAX) NULL
