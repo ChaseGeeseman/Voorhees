@@ -9,5 +9,7 @@ CREATE TABLE dbo.ordinance
    ,ord_number VARCHAR(7) NOT NULL
    ,ord_title VARCHAR(MAX) NULL
    ,where_as VARCHAR(MAX) NOT NULL
-   ,now_therefore VARCHAR(MAX) NOT NULL,
+   ,now_therefore VARCHAR(MAX) NOT NULL
+   ,Introduced DATE NOT NULL
+   ,Adopted DATE NOT NULL
 );
