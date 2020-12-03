@@ -9,7 +9,7 @@ CREATE PROCEDURE dbo.ins_vote_history
     @all_aye BIT
    ,@all_naye BIT
     --Person ID isn't really planned to be used yet but I think it should be here
-   ,@person_id INT
+   ,@person_id INT = null
    ,@voter_1 VARCHAR(255) = NULL
    ,@voter_1_vote INT
    ,@voter_2 VARCHAR(255) = NULL
@@ -32,18 +32,21 @@ BEGIN
 		*/
         IF( @all_aye IS NOT NULL OR @all_naye IS NOT NULL )
         BEGIN
+            DECLARE @list_present AS TABLE
+            (
+                primary_key INT IDENTITY(1, 1)
+               ,person_id INT NOT NULL
+            );
+            DECLARE @last_row       INT
+                   ,@current_row    INT         = 1
+                   ,@imported_voter VARCHAR(MAX)
+                   ,@imported_vote  INT;
             IF( @input_vote_item_type = 1 )
             BEGIN
 
                 /*
 					Create a list of people present at the meeting and store the data in a temp table
 				*/
-                DECLARE @list_present AS TABLE
-                (
-                    primary_key INT IDENTITY(1, 1)
-                   ,person_id INT NOT NULL
-                );
-
                 INSERT INTO @list_present
                 (
                     person_id
@@ -56,13 +59,10 @@ BEGIN
 
 
                 --Determine the number of records to go through
-                DECLARE @last_row       INT =
-                        (
-                            SELECT  MAX(lp.primary_key)FROM @list_present lp
-                        )
-                       ,@current_row    INT = 1
-                       ,@imported_voter VARCHAR(MAX)
-                       ,@imported_vote  INT;
+                SET @last_row =
+                (
+                    SELECT  MAX(lp.primary_key)FROM @list_present lp
+                );
 
                 IF( @all_naye IS NOT NULL )
                 BEGIN
@@ -94,7 +94,58 @@ BEGIN
 
 
             END;
+            IF( @input_vote_item_type = 2 )
+            BEGIN
+
+                INSERT INTO @list_present
+                (
+                    person_id
+                )
+                SELECT  a.person_id
+                FROM    dbo.ordinance   o
+                    JOIN dbo.attendance a
+                        ON a.meeting_id = o.meeting_id
+                WHERE   o.primary_key = @input_vote_item;
+
+
+                --Determine the number of records to go through
+                SET @last_row =
+                (
+                    SELECT  MAX(lp.primary_key)FROM @list_present lp
+                );
+
+                IF( @all_naye IS NOT NULL )
+                BEGIN
+                    SET @imported_vote = 0;
+                END;
+                ELSE
+                BEGIN
+                    SET @imported_vote = 1;
+                END;
+
+                --Start our loop
+                WHILE @current_row <= @last_row
+                BEGIN
+                    SET @imported_voter =
+                    (
+                        SELECT  lp.person_id
+                        FROM    @list_present lp
+                        WHERE   lp.primary_key = @current_row
+                    );
+
+
+                    EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item            -- int
+                                                    ,@input_vote_item_type = @input_vote_item_type  -- int
+                                                    ,@input_voter = @imported_voter                 -- varchar(max)
+                                                    ,@input_vote = @imported_vote;
+                    SET @current_row = @current_row + 1;
+                END;
+                RETURN 0;
+
+            END;
         END;
+
+
         --Else we need to process each persons name individually
         SET @voter_1 = dbo.fun_format_name(@voter_1);
         SET @voter_2 = dbo.fun_format_name(@voter_2);
@@ -102,26 +153,26 @@ BEGIN
         SET @voter_4 = dbo.fun_format_name(@voter_4);
         SET @voter_5 = dbo.fun_format_name(@voter_5);
 
-        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
-                                        ,@input_vote_item_type = 1              -- int
-                                        ,@input_voter = @voter_1                -- varchar(max)
-                                        ,@input_vote = @voter_1_vote;           -- int
-        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
-                                        ,@input_vote_item_type = 1              -- int
-                                        ,@input_voter = @voter_2                -- varchar(max)
-                                        ,@input_vote = @voter_2_vote;           -- int
-        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
-                                        ,@input_vote_item_type = 1              -- int
-                                        ,@input_voter = @voter_3                -- varchar(max)
-                                        ,@input_vote = @voter_3_vote;           -- int
-        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
-                                        ,@input_vote_item_type = 1              -- int
-                                        ,@input_voter = @voter_4                -- varchar(max)
-                                        ,@input_vote = @voter_4_vote;           -- int
-        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item    -- int
-                                        ,@input_vote_item_type = 1              -- int
-                                        ,@input_voter = @voter_5                -- varchar(max)
-                                        ,@input_vote = @voter_5_vote;           -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item            -- int
+                                        ,@input_vote_item_type = @input_vote_item_type  -- int
+                                        ,@input_voter = @voter_1                        -- varchar(max)
+                                        ,@input_vote = @voter_1_vote;                   -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item            -- int
+                                        ,@input_vote_item_type = @input_vote_item_type  -- int
+                                        ,@input_voter = @voter_2                        -- varchar(max)
+                                        ,@input_vote = @voter_2_vote;                   -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item            -- int
+                                        ,@input_vote_item_type = @input_vote_item_type  -- int
+                                        ,@input_voter = @voter_3                        -- varchar(max)
+                                        ,@input_vote = @voter_3_vote;                   -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item            -- int
+                                        ,@input_vote_item_type = @input_vote_item_type  -- int
+                                        ,@input_voter = @voter_4                        -- varchar(max)
+                                        ,@input_vote = @voter_4_vote;                   -- int
+        EXEC dbo.ins_vote_history_insert @input_vote_item = @input_vote_item            -- int
+                                        ,@input_vote_item_type = @input_vote_item_type  -- int
+                                        ,@input_voter = @voter_5                        -- varchar(max)
+                                        ,@input_vote = @voter_5_vote;                   -- int
         RETURN 0;
 
 
