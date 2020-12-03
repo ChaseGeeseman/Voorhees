@@ -30,11 +30,9 @@ BEGIN
             SELECT  @input_vote_item
             FROM    dbo.vote_history vh
             WHERE   vh.vote_item = @input_vote_item
-                    AND vh.voter = @input_vote
+                    AND vh.voter = @input_voter
 					AND vh.vote_item_type = @input_vote_item_type
         );
     END;
 END;
 GO
-
-
