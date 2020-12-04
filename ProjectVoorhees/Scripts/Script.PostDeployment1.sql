@@ -11,12 +11,9 @@ Post-Deployment Script Template
 */
 
 
-
-
-
 /*
-    *   Populate the party table with some default parites.
-    */
+*   Populate the party table with some default parites.
+*/
 
 IF( NOT EXISTS ( SELECT * FROM  dbo.party p ))
 BEGIN
