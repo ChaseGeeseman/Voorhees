@@ -22,6 +22,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DacVersion>0.5.0.0</DacVersion>
+    <GenerateCreateScript>False</GenerateCreateScript>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -56,5 +58,52 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\attendance.sql" />
+    <Build Include="dbo\Tables\election_history.sql" />
+    <Build Include="dbo\Tables\item_info.sql" />
+    <Build Include="dbo\Tables\meeting.sql" />
+    <Build Include="dbo\Tables\meeting_order.sql" />
+    <Build Include="dbo\Tables\ordinance.sql" />
+    <Build Include="dbo\Tables\party.sql" />
+    <Build Include="dbo\Tables\people.sql" />
+    <Build Include="dbo\Tables\resolution.sql" />
+    <Build Include="dbo\Tables\source_info.sql" />
+    <Build Include="dbo\Tables\source_reference.sql" />
+    <Build Include="dbo\Tables\vote_history.sql" />
+    <Build Include="dbo\Functions\fun_dup_check.sql" />
+    <Build Include="dbo\Functions\fun_format_name.sql" />
+    <Build Include="dbo\Stored Procedures\ins_and_dup_check.sql" />
+    <Build Include="dbo\Stored Procedures\ins_attendance_dup_check.sql" />
+    <Build Include="dbo\Stored Procedures\ins_attendance_insert.sql" />
+    <Build Include="dbo\Stored Procedures\ins_election_history.sql" />
+    <Build Include="dbo\Stored Procedures\ins_meeting.sql" />
+    <Build Include="dbo\Stored Procedures\ins_meeting_order.sql" />
+    <Build Include="dbo\Stored Procedures\ins_ordinance.sql" />
+    <Build Include="dbo\Stored Procedures\ins_party.sql" />
+    <Build Include="dbo\Stored Procedures\ins_people.sql" />
+    <Build Include="dbo\Stored Procedures\ins_resolution.sql" />
+    <Build Include="dbo\Stored Procedures\ins_vote_history.sql" />
+    <Build Include="dbo\Stored Procedures\ins_vote_history_insert.sql" />
+    <Build Include="dbo\Stored Procedures\up_people.sql" />
+    <Build Include="dbo\Stored Procedures\view_election_history.sql" />
+    <Build Include="dbo\Stored Procedures\view_vote_history.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="dbo\Tables\import_general.sql" />
+    <Build Include="dbo\Tables\import_roll_call_1.sql" />
+    <Build Include="dbo\Tables\import_roll_call_2.sql" />
+    <Build Include="dbo\Stored Procedures\import_roll_call.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="ProjectVoorhees.refactorlog" />
   </ItemGroup>
 </Project>
