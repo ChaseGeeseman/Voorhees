@@ -1,7 +1,6 @@
-﻿CREATE TABLE dbo.Table1
+CREATE TABLE dbo.import_general
 (
-    Id INT IDENTITY(1, 1) NOT NULL PRIMARY KEY
-   ,import_order INT NULL
+    import_order VARCHAR(MAX) NOT NULL
    ,meeting_date VARCHAR(MAX) NULL
    ,meeting_time VARCHAR(MAX) NULL
    ,meeting_type VARCHAR(MAX) NULL
