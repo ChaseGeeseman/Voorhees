@@ -21,6 +21,7 @@ BEGIN
     EXEC dbo.ins_party @party_name = 'Republican';
     EXEC dbo.ins_party @party_name = 'Independent';
     EXEC dbo.ins_party @party_name = 'Other';
+    EXEC dbo.ins_party @party_name = 'Not Known';
 END;
 
 
@@ -39,27 +40,27 @@ BEGIN
     */
     EXEC dbo.ins_people @first_name = 'Jason'   -- varchar(max)
                        ,@last_name = 'Ravitz'   -- varchar(max)
-                       ,@party = 1              -- int
-                       ,@active = NULL;         -- bit
-    EXEC dbo.ins_people @first_name = 'Michelle'   -- varchar(max)
-                       ,@last_name = 'Nocito'   -- varchar(max)
-                       ,@party = 1              -- int
-                       ,@active = NULL;         -- bit
-    EXEC dbo.ins_people @first_name = 'Michael'   -- varchar(max)
-                       ,@last_name = 'Friedman'   -- varchar(max)
-                       ,@party = 1              -- int
-                       ,@active = NULL;         -- bit
+                       ,@party = 5              -- int
+                       ,@active = 1;            -- bit
+    EXEC dbo.ins_people @first_name = 'Michelle'    -- varchar(max)
+                       ,@last_name = 'Nocito'       -- varchar(max)
+                       ,@party = 5                  -- int
+                       ,@active = 1;                -- bit
+    EXEC dbo.ins_people @first_name = 'Michael' -- varchar(max)
+                       ,@last_name = 'Friedman' -- varchar(max)
+                       ,@party = 5              -- int
+                       ,@active = 1;            -- bit
     EXEC dbo.ins_people @first_name = 'Harry'   -- varchar(max)
-                       ,@last_name = 'Platt'   -- varchar(max)
-                       ,@party = 1              -- int
-                       ,@active = NULL;         -- bit
+                       ,@last_name = 'Platt'    -- varchar(max)
+                       ,@party = 5              -- int
+                       ,@active = 1;            -- bit
     EXEC dbo.ins_people @first_name = 'Jason'   -- varchar(max)
                        ,@last_name = 'Ravitz'   -- varchar(max)
-                       ,@party = 1              -- int
-                       ,@active = NULL;         -- bit
-    EXEC dbo.ins_people @first_name = 'Michael'   -- varchar(max)
-                       ,@last_name = 'Mignogna'   -- varchar(max)
-                       ,@party = 1              -- int
-                       ,@active = NULL;         -- bit
+                       ,@party = 5              -- int
+                       ,@active = 1;            -- bit
+    EXEC dbo.ins_people @first_name = 'Michael' -- varchar(max)
+                       ,@last_name = 'Mignogna' -- varchar(max)
+                       ,@party = 5              -- int
+                       ,@active = 1;            -- bit
 
 END;
